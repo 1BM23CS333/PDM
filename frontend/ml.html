@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>PDM • ML Pipeline</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <div class="container">
+    <div class="header">
+      <h1>ML Training & Predictions</h1>
+      <div class="nav">
+        <a href="dashboard.html">Dashboard</a>
+        <a href="upload.html">OCR Upload</a>
+        <a href="cost.html">Cost Analytics</a>
+        <a href="scheduler.html">Scheduler</a>
+        <a href="ml.html">ML</a>
+        <button class="alert-btn" onclick="toggleAlerts()">⚠ Alerts</button>
+        <button onclick="logout()">Logout</button>
+      </div>
+    </div>
+
+    <div class="grid cols-2">
+      <div class="card">
+        <h3 style="margin-top:0;">Ingest Handwritten Table (Image)</h3>
+        <input id="img" class="input" type="file" accept="image/*">
+        <button class="btn" style="margin-top:10px;" onclick="ingestImage()">Ingest via OCR</button>
+        <pre id="imgResult" class="card" style="background:#0b1118; margin-top:10px; white-space:pre-wrap;"></pre>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0;">Ingest CSV</h3>
+        <input id="csv" class="input" type="file" accept=".csv,text/csv">
+        <button class="btn" style="margin-top:10px;" onclick="ingestCSV()">Append CSV</button>
+        <pre id="csvResult" class="card" style="background:#0b1118; margin-top:10px; white-space:pre-wrap;"></pre>
+      </div>
+    </div>
+
+    <div class="grid cols-2" style="margin-top:18px;">
+      <div class="card">
+        <h3 style="margin-top:0;">Train Model</h3>
+        <button class="btn" onclick="trainModel()">Train from dataset.csv</button>
+        <pre id="trainResult" class="card" style="background:#0b1118; margin-top:10px; white-space:pre-wrap;"></pre>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0;">Predict for a Machine</h3>
+        <select id="machineSelect" class="input"></select>
+        <button class="btn" style="margin-top:10px;" onclick="predictSelected()">Predict</button>
+        <pre id="predictResult" class="card" style="background:#0b1118; margin-top:10px; white-space:pre-wrap;"></pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- Alerts panel + toast -->
+  <div id="alertPanel" class="alert-panel">
+    <div class="alert-panel-header">
+      <h3>Active Alerts</h3>
+      <button class="close-alert-btn" onclick="toggleAlerts()">❌</button>
+    </div>
+    <div id="alertList"></div>
+  </div>
+  <div id="toast" class="toast"></div>
+
+  <div id="footerPlaceholder"></div>
+  <script>
+    fetch("components/footer-nav.html").then(r=>r.text()).then(html=>document.getElementById("footerPlaceholder").innerHTML=html);
+  </script>
+
+  <script src="js/common.js"></script>
+  <script src="js/ml.js"></script>
+  <script src="js/alerts.js"></script>
+</body>
+</html>

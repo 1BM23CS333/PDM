@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>PDM • Maintenance Scheduler</title>
+  <link rel="stylesheet" href="css/style.css">
+
+  <!-- FullCalendar CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.js"></script>
+
+</head>
+<div id="alertPanel" class="alert-panel">
+  <div class="alert-panel-header">
+    <h3>Active Alerts</h3>
+    <button class="close-alert-btn" onclick="toggleAlerts()">❌</button>
+  </div>
+  <div id="alertList"></div>
+</div>
+
+<div id="toast" class="toast"></div>
+
+
+<div id="toast" class="toast"></div>
+<div id="footerPlaceholder"></div>
+<script>
+  fetch("components/footer-nav.html")
+    .then(r => r.text())
+    .then(html => document.getElementById("footerPlaceholder").innerHTML = html);
+</script>
+
+
+<body>
+
+<div class="container">
+
+  <div class="header">
+    <h1>Maintenance Scheduler</h1>
+    <div class="nav">
+      <a href="dashboard.html">Dashboard</a>
+      <a href="upload.html">OCR Upload</a>
+      <a href="cost.html">Cost Analytics</a>
+      <a href="scheduler.html">Scheduler</a>
+      <a href="profile.html">Profile</a>
+      <button class="alert-btn" onclick="toggleAlerts()">⚠ Alerts</button>
+
+      <button onclick="logout()">Logout</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <label>Select Machine</label>
+    <select id="machineSelect" class="input"></select>
+
+    <label style="margin-top:12px;">Maintenance Date</label>
+    <input type="date" id="dateInput" class="input">
+
+    <label style="margin-top:12px;">Description</label>
+    <input type="text" id="descInput" class="input" placeholder="Routine check / Repair / Inspection">
+
+    <button class="btn" style="margin-top:14px;" onclick="addEvent()">Add Maintenance</button>
+  </div>
+
+  <div class="card" style="margin-top:18px;">
+    <div id="calendar"></div>
+  </div>
+
+</div>
+
+<script src="js/common.js"></script>
+<script src="js/scheduler.js"></script>
+<script src="js/alerts.js"></script>
+
+</body>
+</html>

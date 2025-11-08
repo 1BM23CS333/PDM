@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Upload Sensor Dataset</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+<div class="auth-container">
+  <div class="form-box">
+    <h2>Upload Sensor Dataset</h2>
+    <input type="file" id="fileInput" accept=".csv" class="input">
+    <button class="btn" onclick="uploadFile()">Train Model</button>
+  </div>
+</div>
+
+<script>
+async function uploadFile() {
+  const token = localStorage.getItem("token");
+  if (!token) return alert("⚠️ Please sign in again — No token found.");
+
+  const file = document.getElementById("fileInput").files[0];
+  if (!file) return alert("Choose a CSV file first!");
+
+  let formData = new FormData();
+  formData.append("file", file);
+
+  const btn = document.getElementById("uploadBtn");
+  btn.innerText = "Training...";
+  btn.disabled = true;
+
+  try {
+    let res = await fetch("http://127.0.0.1:5000/train/upload", {
+      method: "POST",
+      headers: { 
+        Authorization: `Bearer ${token}` 
+      },
+      body: formData
+    });
+
+    let data = await res.json();
+    alert(data.message || "✅ Training Completed!");
+  } catch (err) {
+    alert("❌ Backend not responding. Make sure server is running.");
+  }
+
+  btn.innerText = "Train Model";
+  btn.disabled = false;
+}
+</script>
+
+
+</body>
+</html>

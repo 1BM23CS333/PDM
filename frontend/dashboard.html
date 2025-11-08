@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PDM • Dashboard</title>
+  <link rel="stylesheet" href="css/style.css" />
+
+  <!-- Chart.js -->
+   
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- ✅ PDF Generation Libraries -->
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+
+</head>
+<div id="footerPlaceholder"></div>
+<script>
+  fetch("components/footer-nav.html")
+    .then(r => r.text())
+    .then(html => document.getElementById("footerPlaceholder").innerHTML = html);
+</script>
+
+<body>
+
+<div class="container">
+
+  <!-- Header -->
+  <div class="header">
+    <h1>Machine Health Dashboard</h1>
+
+    <div class="nav">
+      <a href="dashboard.html">Dashboard</a>
+      <a href="upload.html">OCR Upload</a>
+      <a href="cost.html">Cost Analytics</a>
+      <a href="scheduler.html">Scheduler</a>
+      <a href="profile.html">Profile</a>
+      <button class="alert-btn" onclick="toggleAlerts()">⚠ Alerts</button>
+      <button onclick="logout()">Logout</button>
+    </div>
+  </div>
+
+  <!-- KPI Cards -->
+  <div class="grid cols-3">
+    <div class="card">
+      <h2 id="kpiMachines">0</h2>
+      <p class="tag">Total Machines</p>
+    </div>
+
+    <div class="card">
+      <h2 id="kpiCritical">0</h2>
+      <p class="tag">Critical Alerts</p>
+    </div>
+
+    <div class="card">
+      <h2 id="kpiAvgHealth">--%</h2>
+      <p class="tag">Average System Health</p>
+    </div>
+  </div>
+
+  <!-- Failure Probability Chart -->
+  <div class="card" style="margin-top:18px;">
+    <h3>Failure Probability (All Machines)</h3>
+    <canvas id="probabilityChart" height="120"></canvas>
+  </div>
+
+  <!-- Machine Cards -->
+  <div id="machineCards" class="grid cols-3" style="margin-top:18px;"></div>
+
+</div>
+
+<!-- ✅ Slide-Out Alerts Panel -->
+<div id="alertPanel" class="alert-panel">
+  <div class="alert-panel-header">
+    <h3>Active Alerts</h3>
+    <button class="close-alert-btn" onclick="toggleAlerts()">❌</button>
+  </div>
+  <div id="alertList"></div>
+</div>
+
+<!-- ✅ Toast Notification -->
+<div id="toast" class="toast"></div>
+
+<!-- Scripts -->
+<script src="js/common.js"></script>
+<script src="js/dashboard.js"></script>
+<script src="js/report.js"></script>   <!-- ✅ PDF Generator -->
+<script src="js/alerts.js"></script>   <!-- ✅ Real-Time Alerts -->
+
+</body>
+</html>

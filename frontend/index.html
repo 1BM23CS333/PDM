@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>PDM - Login</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="css/auth.css">
+</head>
+
+<body>
+
+<canvas id="particles"></canvas>
+
+<div class="auth-wrapper">
+  <div class="auth-box">
+
+    <img src="assets/logo.png" class="logo" alt="PDM">
+
+    <h2 class="title">Predictive Maintenance System</h2>
+
+    <div class="tab-switch">
+      <button id="loginTab" class="active">Sign In</button>
+      <button id="signupTab">Sign Up</button>
+    </div>
+
+    <!-- LOGIN FORM -->
+    <form id="loginForm">
+      <div class="form-group">
+        <input type="email" id="loginEmail" required placeholder="Email">
+      </div>
+
+      <div class="form-group password-field">
+        <input type="password" id="loginPassword" required placeholder="Password">
+        <span toggle="#loginPassword" class="toggle-password">👁</span>
+      </div>
+
+      <button type="submit" class="btn">Sign In</button>
+      <p class="note">Don't have an account? <a id="goSignup">Sign Up</a></p>
+    </form>
+
+    <!-- SIGNUP FORM -->
+    <form id="signupForm" style="display:none;">
+      <div class="form-group">
+        <input type="text" id="signup-name" required placeholder="Full Name">
+      </div>
+
+      <div class="form-group">
+        <input type="email" id="signup-email" required placeholder="Email">
+      </div>
+
+      <div class="form-group password-field">
+        <input type="password" id="signup-password" required placeholder="Password">
+        <span toggle="#signup-password" class="toggle-password">👁</span>
+      </div>
+
+      <button type="submit" class="btn">Sign Up</button>
+      <p class="note">Already have an account? <a id="goLogin">Sign In</a></p>
+    </form>
+
+  </div>
+</div>
+
+<script src="js/particles.js"></script>
+<script src="js/auth.js"></script>
+
+<script>
+// Toggle Forms
+const loginForm = document.getElementById("loginForm");
+const signupForm = document.getElementById("signupForm");
+const loginTab = document.getElementById("loginTab");
+const signupTab = document.getElementById("signupTab");
+const goSignup = document.getElementById("goSignup");
+const goLogin = document.getElementById("goLogin");
+
+function showLogin(){
+  loginForm.style.display = "block";
+  signupForm.style.display = "none";
+  loginTab.classList.add("active");
+  signupTab.classList.remove("active");
+}
+
+function showSignup(){
+  loginForm.style.display = "none";
+  signupForm.style.display = "block";
+  signupTab.classList.add("active");
+  loginTab.classList.remove("active");
+}
+
+loginTab.onclick = showLogin;
+signupTab.onclick = showSignup;
+goSignup.onclick = showSignup;
+goLogin.onclick = showLogin;
+
+// Show/Hide Password
+document.querySelectorAll(".toggle-password").forEach(icon => {
+  icon.addEventListener("click", () => {
+    let input = document.querySelector(icon.getAttribute("toggle"));
+    input.type = input.type === "password" ? "text" : "password";
+  });
+});
+</script>
+
+</body>
+</html>

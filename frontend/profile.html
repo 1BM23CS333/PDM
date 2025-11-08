@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PDM • Profile</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<div id="alertPanel" class="alert-panel">
+  <div class="alert-panel-header">
+    <h3>Active Alerts</h3>
+    <button class="close-alert-btn" onclick="toggleAlerts()">❌</button>
+  </div>
+  <div id="alertList"></div>
+</div>
+
+<div id="toast" class="toast"></div>
+
+
+<div id="toast" class="toast"></div>
+<div id="footerPlaceholder"></div>
+<script>
+const nameInput = document.getElementById("profile-name");
+const emailInput = document.getElementById("profile-email");
+const saveBtn = document.getElementById("saveProfileBtn");
+
+// Load user data on page load
+async function loadProfile() {
+  const token = localStorage.getItem("token");
+  if (!token) return location.href = "index.html";
+
+  const res = await fetch("http://localhost:5000/auth/me", {
+    headers: { "Authorization": token }
+  });
+
+  const data = await res.json();
+
+  if (data.user) {
+    nameInput.value = data.user.name || "";
+    emailInput.value = data.user.email || "";
+  }
+}
+
+// Save updated name + email
+saveBtn.addEventListener("click", async () => {
+  const token = localStorage.getItem("token");
+  if (!token) return location.href = "index.html";
+
+  const res = await fetch("http://localhost:5000/auth/update", {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": token
+    },
+    body: JSON.stringify({
+      name: nameInput.value,
+      email: emailInput.value
+    })
+  });
+
+  const result = await res.json();
+  if (result.success) {
+    showToast("Profile Updated ✅", "success");
+  } else {
+    showToast(result.message || "Something went wrong ⚠️", "error");
+  }
+});
+
+function showToast(message, type) {
+  const toast = document.createElement("div");
+  toast.className = `toast ${type}`;
+  toast.innerText = message;
+  document.body.appendChild(toast);
+  setTimeout(() => toast.remove(), 2500);
+}
+
+loadProfile();
+</script>
+
+
+
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Profile</h1>
+      <div class="nav">
+        <a href="dashboard.html">Dashboard</a>
+        <a href="profile.html">Profile</a>
+        <a href="cost.html">Cost Analytics</a>
+        <a href="scheduler.html">Scheduler</a>
+        <button class="alert-btn" onclick="toggleAlerts()">⚠ Alerts</button>
+
+
+
+
+        <button onclick="logout()">Logout</button>
+      </div>
+    </div>
+
+    <div class="card">
+        <h2>Account</h2>
+    
+        <label>Name</label>
+        <input id="nameInput" class="input" type="text">
+    
+        <label>Email</label>
+        <input id="emailInput" class="input" type="email">
+    
+        <label>Role</label>
+        <input id="roleInput" class="input" type="text" readonly style="opacity:0.6;">
+    
+        <button class="btn" style="margin-top:15px;" onclick="saveProfile()">Save Changes</button>
+    </div>
+
+
+    <div class="card" style="margin-top:18px;">
+      <h3 style="margin-top:0;">Assigned Machines</h3>
+      <div id="assigned" class="grid cols-3"></div>
+    </div>
+  </div>
+
+  <script src="js/common.js"></script>
+  <script src="js/profile.js"></script>
+  <script src="js/alerts.js"></script>
+
+</body>
+</html>

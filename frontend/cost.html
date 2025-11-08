@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PDM • Cost Analytics</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<div id="alertPanel" class="alert-panel">
+  <div class="alert-panel-header">
+    <h3>Active Alerts</h3>
+    <button class="close-alert-btn" onclick="toggleAlerts()">❌</button>
+  </div>
+  <div id="alertList"></div>
+</div>
+
+<div id="toast" class="toast"></div>
+
+
+<div id="toast" class="toast"></div>
+<div id="footerPlaceholder"></div>
+<script>
+  fetch("components/footer-nav.html")
+    .then(r => r.text())
+    .then(html => document.getElementById("footerPlaceholder").innerHTML = html);
+</script>
+
+
+<body>
+
+  <div class="container">
+
+    <div class="header">
+      <h1>Cost Saving Analytics</h1>
+      <div class="nav">
+        <a href="dashboard.html">Dashboard</a>
+        <a href="upload.html">OCR Upload</a>
+        <a href="cost.html">Cost Analytics</a>
+        <a href="profile.html">Profile</a>
+        <a href="scheduler.html">Scheduler</a>
+        <button class="alert-btn" onclick="toggleAlerts()">⚠ Alerts</button>
+
+        <button onclick="logout()">Logout</button>
+      </div>
+    </div>
+
+    <div class="grid cols-2">
+
+      <div class="card">
+        <h3 style="margin:0;">Cost Saved (%) per Machine</h3>
+        <canvas id="machineCostChart" height="180"></canvas>
+      </div>
+
+      <div class="card">
+        <h3 style="margin:0;">Overall Cost Efficiency Breakdown</h3>
+        <canvas id="pieChart" height="180"></canvas>
+      </div>
+
+    </div>
+
+  </div>
+
+  <script src="js/common.js"></script>
+  <script src="js/cost.js"></script>
+  <script src="js/alerts.js"></script>
+
+
+</body>
+</html>

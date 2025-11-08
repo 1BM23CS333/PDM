@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PDM • Machine</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head>
+<div id="alertPanel" class="alert-panel">
+  <div class="alert-panel-header">
+    <h3>Active Alerts</h3>
+    <button class="close-alert-btn" onclick="toggleAlerts()">❌</button>
+  </div>
+  <div id="alertList"></div>
+</div>
+
+<div id="toast" class="toast"></div>
+
+
+<div id="toast" class="toast"></div>
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+<div id="footerPlaceholder"></div>
+<script>
+  fetch("components/footer-nav.html")
+    .then(r => r.text())
+    .then(html => document.getElementById("footerPlaceholder").innerHTML = html);
+</script>
+
+
+<body>
+  <div class="container">
+    <div class="header">
+      <h1 id="machineTitle">Machine</h1>
+      <div class="nav">
+        <a href="dashboard.html">Dashboard</a>
+        <a href="profile.html">Profile</a>
+        <a href="cost.html">Cost Analytics</a>
+        <a href="scheduler.html">Scheduler</a>
+        <button class="alert-btn" onclick="toggleAlerts()">⚠ Alerts</button>
+
+
+        <button onclick="logout()">Logout</button>
+      </div>
+    </div>
+
+    <div class="grid cols-2">
+      <div class="card">
+        <h3 style="margin-top:0;">Overview</h3>
+        <div class="grid cols-2">
+          <div>
+            <div class="kpi"><h2 id="currentFail">--%</h2><small>Failure Probability</small></div>
+            <span id="failBadge" class="badge">-</span>
+          </div>
+          <div>
+            <div class="kpi"><h2 id="overallHealth">--%</h2><small>Overall Health</small></div>
+            <span class="badge ok">Healthy if &gt;= 80%</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0;">Most Critical Parameter</h3>
+        <div id="criticalPanel">Loading…</div>
+      </div>
+    </div>
+
+    <div class="grid cols-2" style="margin-top:18px;">
+      <div class="card">
+        <h3 style="margin-top:0;">Parameter Health Table</h3>
+        <table class="table" id="paramTable"></table>
+      </div>
+      <div class="card">
+        <h3 style="margin-top:0;">Monthly Failure Probability</h3>
+        <canvas id="machineChart" height="140"></canvas>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:18px;">
+      <h3 style="margin-top:0;">Alerts</h3>
+      <div id="alerts"></div>
+    </div>
+  </div>
+
+  <script src="js/common.js"></script>
+  <script src="js/machine.js"></script>
+  <script src="js/alerts.js"></script>
+
+</body>
+</html>
